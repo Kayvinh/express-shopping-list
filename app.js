@@ -2,41 +2,12 @@ const express = require("express");
 const app = express();
 
 const { NotFoundError } = require("./expressError");
+const routes = require("./routes");
 const { items } = require("./fakeDb");
 
 app.use(express.json());                           // process JSON data
 app.use(express.urlencoded());                     // process trad form data
-
-/**
- * Returns items object
-    { items: [
-    { name: "popsicle", price: 1.45 },
-    { name: "cheerios", price: 3.40 }
-    ]}
- */
-app.get("/items", function (req, res) {
-    return res.json({ items });
-});
-
-app.post("/items", function (req, res) {
-    const item = req.body;
-    //console.log(item)
-    items.push(item);
-    return res.json({ "added": `${(item)}` });
-});
-
-app.get("/items/:name", function (req, res) {
-
-    const itemName = req.params.name;
-
-    for(let item of items) {
-        if (item.name === itemName) {
-            return res.json(item);
-        }
-    }
-
-    throw new NotFoundError;
-});
+app.use("/items", routes);                         // routes for all items
 
 app.use(function (req, res) {                      // handle site-wide 404s
     throw new NotFoundError();
