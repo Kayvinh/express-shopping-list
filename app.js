@@ -3,7 +3,6 @@ const app = express();
 
 const { NotFoundError } = require("./expressError");
 const routes = require("./routes");
-const { items } = require("./fakeDb");
 
 app.use(express.json());                           // process JSON data
 app.use(express.urlencoded());                     // process trad form data
